@@ -1,218 +1,187 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Happy Birthday ❤️</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>Happy Birthday My Love</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+<style>
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(180deg, #ff9a9e, #fad0c4);
+    color: #333;
+    overflow-x: hidden;
+  }
 
-    body {
-      font-family: system-ui, sans-serif;
-      min-height: 100vh;
-      background: radial-gradient(circle at top, #ff9a9e, #fad0c4, #fbc2eb);
-      color: #2d2d2d;
-      overflow-x: hidden;
-    }
+  section {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    text-align: center;
+  }
 
-    .hero {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 24px;
-    }
+  .card {
+    background: rgba(255,255,255,0.92);
+    padding: 40px;
+    border-radius: 24px;
+    max-width: 600px;
+    box-shadow: 0 30px 70px rgba(0,0,0,0.15);
+    animation: fadeUp 1.2s ease;
+  }
 
-    .card {
-      background: rgba(255,255,255,0.9);
-      border-radius: 24px;
-      padding: 40px 32px;
-      max-width: 520px;
-      text-align: center;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.15);
-      z-index: 2;
-    }
+  h1 {
+    font-size: 2.6rem;
+    margin-bottom: 10px;
+  }
 
-    h1 {
-      font-size: 2.4rem;
-      margin-bottom: 10px;
-    }
+  h2 {
+    margin-bottom: 16px;
+  }
 
-    .subtitle {
-      color: #555;
-      margin-bottom: 16px;
-    }
+  p {
+    line-height: 1.7;
+    margin-bottom: 16px;
+  }
 
-    .heart {
-      font-size: 3rem;
-      margin: 10px 0;
-    }
+  button {
+    padding: 14px 30px;
+    border-radius: 999px;
+    border: none;
+    background: linear-gradient(135deg, #ff758c, #ff7eb3);
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 20px;
+  }
 
-    .message {
-      line-height: 1.6;
-    }
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px,1fr));
+    gap: 16px;
+    max-width: 900px;
+    width: 100%;
+  }
 
-    button {
-      margin-top: 28px;
-      padding: 14px 28px;
-      border-radius: 999px;
-      border: none;
-      background: linear-gradient(135deg, #ff758c, #ff7eb3);
-      color: white;
-      font-size: 1rem;
-      cursor: pointer;
-    }
+  .photo {
+    height: 220px;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+  }
 
-    .gallery {
-      padding: 60px 24px;
-      max-width: 900px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 16px;
-    }
+  .photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 
-    .photo {
-      height: 220px;
-      border-radius: 18px;
-      overflow: hidden;
-      box-shadow: 0 12px 30px rgba(0,0,0,0.12);
-    }
+  .heart {
+    position: fixed;
+    bottom: -20px;
+    font-size: 20px;
+    animation: floatUp 6s linear infinite;
+    opacity: 0.6;
+  }
 
-    .photo img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
+  @keyframes floatUp {
+    from { transform: translateY(0); }
+    to { transform: translateY(-110vh); }
+  }
 
-    footer {
-      text-align: center;
-      padding: 40px;
-      color: #555;
-      font-size: 0.9rem;
-    }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
 
-    /* POPUP */
-    .popup {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.5);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 5;
-    }
-
-    .popup-content {
-      background: white;
-      padding: 32px;
-      border-radius: 20px;
-      max-width: 360px;
-      text-align: center;
-    }
-
-    /* CONFETTI */
-    .confetti {
-      position: fixed;
-      top: -10px;
-      width: 10px;
-      height: 10px;
-      background: red;
-      animation: fall 3s linear infinite;
-      z-index: 4;
-    }
-
-    @keyframes fall {
-      to {
-        transform: translateY(110vh) rotate(360deg);
-      }
-    }
-  </style>
+  footer {
+    padding: 40px;
+    text-align: center;
+    color: #555;
+  }
+</style>
 </head>
 
 <body>
 
-  <section class="hero">
-    <div class="card">
-      <h1>Happy Birthday, My Love</h1>
-      <p class="subtitle">You make my world brighter every day</p>
-      <div class="heart">❤️</div>
-      <p class="message">
-        I know you want me to make you something that's handmade, so here it is hehe. Today is all about you. I’m so grateful for every moment with you. I love you so, so much. From yours truly, Ducc.
-      </p>
-      <button id="celebrateBtn">Celebrate 🎉</button>
+<!-- SECTION 1 -->
+<section>
+  <div class="card">
+    <h1>Happy Birthday, My Love ❤️</h1>
+    <p>
+      Today is about you, about celebrating the beautiful soul that makes my
+      life brighter just by being in it.
+    </p>
+    <button onclick="startLove()">Start the Surprise 🎉</button>
+  </div>
+</section>
 
-<audio id="bgMusic" src="song.mp3"></audio>
+<!-- SECTION 2 -->
+<section id="message">
+  <div class="card">
+    <h2>Just for You</h2>
+    <p>
+      You are my safe place, my favorite person, and the reason my days feel
+      lighter. Loving you has been one of the most natural and beautiful things
+      in my life.
+    </p>
+    <p>
+      I love your smile, your kindness, your strength, and even the little
+      things you don’t notice about yourself. You are more than enough, exactly
+      as you are.
+    </p>
+  </div>
+</section>
 
-<script>
-  document.getElementById("celebrateBtn").onclick = function () {
-    const music = document.getElementById("bgMusic");
-    music.play();
-
-    alert("Happy Birthday ❤️");
-  };
-</script>
-</button>
-    </div>
-  </section>
-
-  <section class="gallery">
+<!-- SECTION 3 -->
+<section>
+  <div class="gallery">
     <div class="photo"><img src="image1.jpeg"></div>
     <div class="photo"><img src="image2.jpeg"></div>
     <div class="photo"><img src="image3.jpeg"></div>
     <div class="photo"><img src="image4.jpeg"></div>
-  </section>
-
-  <footer>
-    Made with love ❤️
-  </footer>
-
-  <!-- POPUP -->
-  <div class="popup" id="popup">
-    <div class="popup-content">
-      <h2>For You ❤️</h2>
-      <p>
-        You are the most beautiful part of my life.
-        I’m so proud of you, and I love you more than words can say.
-      </p>
-      <br>
-      <button onclick="closePopup()">Close</button>
-    </div>
   </div>
+</section>
 
-  <!-- MUSIC -->
-  <audio id="song">
-    <source src="song.mp3" type="audio/mpeg">
-  </audio>
+<!-- SECTION 4 -->
+<section>
+  <div class="card">
+    <h2>A Promise</h2>
+    <p>
+      I promise to love you on easy days and hard ones. To support your dreams,
+      hold you when you’re tired, and remind you how special you are when you
+      forget.
+    </p>
+    <p>
+      No matter where life takes us, you will always have my heart.
+    </p>
+    <button onclick="showNote()">One Last Thing 💌</button>
+  </div>
+</section>
 
-  <script>
-    function celebrate() {
-      document.getElementById('popup').style.display = 'flex';
-      document.getElementById('song').play();
+<footer>
+  Made with all my love ❤️
+</footer>
 
-      for (let i = 0; i < 80; i++) {
-        let confetti = document.createElement('div');
-        confetti.className = 'confetti';
-        confetti.style.left = Math.random() * 100 + 'vw';
-        confetti.style.backgroundColor = `hsl(${Math.random()*360},80%,60%)`;
-        confetti.style.animationDuration = 2 + Math.random() * 3 + 's';
-        document.body.appendChild(confetti);
+<audio id="music" src="song.mp3" loop></audio>
 
-        setTimeout(() => confetti.remove(), 5000);
-      }
-    }
+<script>
+  function startLove() {
+    document.getElementById("music").play();
+    confetti();
+    document.getElementById("message").scrollIntoView({behavior:'smooth'});
+  }
 
-    function closePopup() {
-      document.getElementById('popup').style.display = 'none';
-    }
-  </script>
+  function showNote() {
+    alert("Happy Birthday, my love. I’m so grateful for you, today and always ❤️");
+    confetti();
+  }
 
-</body>
-</html>
-
-
+  function confetti() {
+    for (let i = 0; i < 30; i++) {
+      const heart = document.createElement("div");
+      heart.className = "heart";
+      heart.innerText = "❤️";
+      heart.s
