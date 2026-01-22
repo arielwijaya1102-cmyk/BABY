@@ -10,23 +10,37 @@
     margin: 0;
     font-family: Arial, sans-serif;
     background: linear-gradient(180deg, #ff9a9e, #fad0c4);
-    text-align: center;
+    color: #333;
+    overflow-x: hidden;
   }
 
   section {
     min-height: 100vh;
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
     padding: 40px 20px;
+    text-align: center;
   }
 
   .card {
     background: white;
     padding: 36px;
     border-radius: 24px;
-    max-width: 600px;
+    max-width: 620px;
     box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+    opacity: 0;
+    transform: translateY(30px);
+    transition: 1s;
+  }
+
+  .card.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  h1 {
+    font-size: 2.4rem;
   }
 
   button {
@@ -52,6 +66,7 @@
     height: 220px;
     border-radius: 18px;
     overflow: hidden;
+    box-shadow: 0 12px 25px rgba(0,0,0,0.2);
   }
 
   .photo img {
@@ -64,36 +79,49 @@
     position: fixed;
     bottom: -20px;
     font-size: 20px;
-    animation: rise 5s linear forwards;
+    animation: floatUp 5s linear forwards;
   }
 
-  @keyframes rise {
+  @keyframes floatUp {
     to { transform: translateY(-110vh); opacity: 0; }
+  }
+
+  .typing {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    white-space: pre-wrap;
+    min-height: 120px;
+  }
+
+  footer {
+    padding: 40px;
+    text-align: center;
+    color: #555;
   }
 </style>
 </head>
 
 <body>
 
+<!-- SECTION 1 -->
 <section>
-  <div class="card">
+  <div class="card show">
     <h1>Happy Birthday My Love ❤️</h1>
-    <p>You make my world softer, warmer, and brighter.</p>
+    <p>You are my favorite part of every day.</p>
     <button id="startBtn">Start the Surprise 🎉</button>
   </div>
 </section>
 
-<section id="message">
+<!-- SECTION 2 -->
+<section id="letter">
   <div class="card">
-    <p>
-      Loving you feels natural. You are my comfort, my happiness,
-      and the person I’m most grateful for.
-    </p>
+    <div class="typing" id="typingText"></div>
   </div>
 </section>
 
+<!-- SECTION 3 -->
 <section>
-  <div class="gallery">
+  <div class="gallery card">
     <div class="photo"><img src="image1.jpeg"></div>
     <div class="photo"><img src="image2.jpeg"></div>
     <div class="photo"><img src="image3.jpeg"></div>
@@ -101,36 +129,65 @@
   </div>
 </section>
 
+<!-- SECTION 4 -->
 <section>
   <div class="card">
-    <p>
-      I promise to love you gently, honestly, and fully.
-      Today and always.
-    </p>
-    <button id="noteBtn">One Last Note 💌</button>
+    <h2>One Last Thing 💌</h2>
+    <p>There’s something I need you to know.</p>
+    <button id="finalBtn">Reveal</button>
   </div>
 </section>
+
+<footer>
+  Made with all my love ❤️
+</footer>
 
 <audio id="music" src="song.mp3" loop></audio>
 
 <script>
   const startBtn = document.getElementById("startBtn");
-  const noteBtn = document.getElementById("noteBtn");
+  const finalBtn = document.getElementById("finalBtn");
   const music = document.getElementById("music");
+  const typingText = document.getElementById("typingText");
+
+  const letter = 
+`My love,
+
+Every day with you feels like a gift.
+You make me feel safe, understood, and deeply loved.
+
+I love your smile, your heart, and the way you care.
+I love who you are, and who you are becoming.
+
+Thank you for being you.
+Thank you for choosing me.
+
+Happy birthday, my love.`;
+
+  let index = 0;
 
   startBtn.addEventListener("click", () => {
-    music.play().catch(() => {});
-    document.getElementById("message").scrollIntoView({ behavior: "smooth" });
-    launchHearts();
+    music.play().catch(()=>{});
+    document.getElementById("letter").scrollIntoView({behavior:"smooth"});
+    typeLetter();
+    hearts();
   });
 
-  noteBtn.addEventListener("click", () => {
-    alert("Happy Birthday, my love. I’m so thankful for you ❤️");
-    launchHearts();
+  finalBtn.addEventListener("click", () => {
+    alert("I love you. More than you’ll ever know ❤️");
+    hearts();
   });
 
-  function launchHearts() {
-    for (let i = 0; i < 25; i++) {
+  function typeLetter() {
+    if (index < letter.length) {
+      typingText.textContent += letter[index];
+      index++;
+      setTimeout(typeLetter, 40);
+    }
+  }
+
+  function hearts() {
+    for (let i = 0; i < 30; i++) {
       const h = document.createElement("div");
       h.className = "heart";
       h.textContent = "❤️";
@@ -140,6 +197,17 @@
       setTimeout(() => h.remove(), 6000);
     }
   }
+
+  // fade in cards on scroll
+  const cards = document.querySelectorAll(".card");
+  window.addEventListener("scroll", () => {
+    cards.forEach(card => {
+      const top = card.getBoundingClientRect().top;
+      if (top < window.innerHeight - 100) {
+        card.classList.add("show");
+      }
+    });
+  });
 </script>
 
 </body>
