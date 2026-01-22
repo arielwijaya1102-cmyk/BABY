@@ -11,7 +11,13 @@
       margin: 0;
       padding: 0;
     }
-
+<script>
+  function celebrate() {
+    document.querySelector('.gallery').scrollIntoView({
+      behavior: 'smooth'
+    });
+  }
+</script>
     body {
       font-family: system-ui, sans-serif;
       min-height: 100vh;
@@ -109,7 +115,7 @@
         Today is all about you. I’m so grateful for every moment with you.
         I hope this reminds you how deeply loved you are, always.
       </p>
-      <button>Celebrate 🎉</button>
+      <button onclick="celebrate()">Celebrate 🎉</button>
     </div>
   </section>
 
@@ -126,3 +132,4 @@
 
 </body>
 </html>
+
