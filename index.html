@@ -11,18 +11,13 @@
       margin: 0;
       padding: 0;
     }
-<script>
-  function celebrate() {
-    document.querySelector('.gallery').scrollIntoView({
-      behavior: 'smooth'
-    });
-  }
-</script>
+
     body {
       font-family: system-ui, sans-serif;
       min-height: 100vh;
       background: radial-gradient(circle at top, #ff9a9e, #fad0c4, #fbc2eb);
       color: #2d2d2d;
+      overflow-x: hidden;
     }
 
     .hero {
@@ -40,6 +35,7 @@
       max-width: 520px;
       text-align: center;
       box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+      z-index: 2;
     }
 
     h1 {
@@ -92,7 +88,6 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      display: block;
     }
 
     footer {
@@ -100,6 +95,42 @@
       padding: 40px;
       color: #555;
       font-size: 0.9rem;
+    }
+
+    /* POPUP */
+    .popup {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 5;
+    }
+
+    .popup-content {
+      background: white;
+      padding: 32px;
+      border-radius: 20px;
+      max-width: 360px;
+      text-align: center;
+    }
+
+    /* CONFETTI */
+    .confetti {
+      position: fixed;
+      top: -10px;
+      width: 10px;
+      height: 10px;
+      background: red;
+      animation: fall 3s linear infinite;
+      z-index: 4;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(110vh) rotate(360deg);
+      }
     }
   </style>
 </head>
@@ -113,23 +144,61 @@
       <div class="heart">❤️</div>
       <p class="message">
         Today is all about you. I’m so grateful for every moment with you.
-        I hope this reminds you how deeply loved you are, always.
       </p>
       <button onclick="celebrate()">Celebrate 🎉</button>
     </div>
   </section>
 
   <section class="gallery">
-    <div class="photo"><img src="image1.jpeg" alt=""></div>
-    <div class="photo"><img src="image2.jpeg" alt=""></div>
-    <div class="photo"><img src="image3.jpeg" alt=""></div>
-    <div class="photo"><img src="image4.jpeg" alt=""></div>
+    <div class="photo"><img src="image1.jpeg"></div>
+    <div class="photo"><img src="image2.jpeg"></div>
+    <div class="photo"><img src="image3.jpeg"></div>
+    <div class="photo"><img src="image4.jpeg"></div>
   </section>
 
   <footer>
     Made with love ❤️
   </footer>
 
+  <!-- POPUP -->
+  <div class="popup" id="popup">
+    <div class="popup-content">
+      <h2>For You ❤️</h2>
+      <p>
+        You are the most beautiful part of my life.
+        I’m so proud of you, and I love you more than words can say.
+      </p>
+      <br>
+      <button onclick="closePopup()">Close</button>
+    </div>
+  </div>
+
+  <!-- MUSIC -->
+  <audio id="song">
+    <source src="song.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    function celebrate() {
+      document.getElementById('popup').style.display = 'flex';
+      document.getElementById('song').play();
+
+      for (let i = 0; i < 80; i++) {
+        let confetti = document.createElement('div');
+        confetti.className = 'confetti';
+        confetti.style.left = Math.random() * 100 + 'vw';
+        confetti.style.backgroundColor = `hsl(${Math.random()*360},80%,60%)`;
+        confetti.style.animationDuration = 2 + Math.random() * 3 + 's';
+        document.body.appendChild(confetti);
+
+        setTimeout(() => confetti.remove(), 5000);
+      }
+    }
+
+    function closePopup() {
+      document.getElementById('popup').style.display = 'none';
+    }
+  </script>
+
 </body>
 </html>
-
