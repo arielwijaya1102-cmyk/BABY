@@ -6,9 +6,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
+  * {
+    box-sizing: border-box;
+  }
+
   body {
     margin: 0;
-    font-family: Arial, sans-serif;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
     background: linear-gradient(180deg, #ff9a9e, #fad0c4);
     color: #333;
     overflow-x: hidden;
@@ -19,19 +23,20 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 40px 20px;
+    padding: 32px 16px;
     text-align: center;
   }
 
   .card {
     background: white;
-    padding: 36px;
-    border-radius: 24px;
-    max-width: 620px;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+    padding: 28px 22px;
+    border-radius: 22px;
+    width: 100%;
+    max-width: 640px;
+    box-shadow: 0 20px 45px rgba(0,0,0,0.18);
     opacity: 0;
-    transform: translateY(30px);
-    transition: 1s;
+    transform: translateY(24px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
   }
 
   .card.show {
@@ -40,86 +45,116 @@
   }
 
   h1 {
-    font-size: 2.4rem;
+    font-size: clamp(1.8rem, 6vw, 2.5rem);
+    margin-bottom: 12px;
+  }
+
+  h2 {
+    font-size: clamp(1.3rem, 5vw, 1.8rem);
+  }
+
+  p {
+    font-size: clamp(1rem, 4.2vw, 1.1rem);
+    line-height: 1.7;
   }
 
   button {
     margin-top: 20px;
-    padding: 14px 30px;
-    font-size: 16px;
+    padding: 16px 34px;
+    font-size: 1rem;
     border-radius: 999px;
     border: none;
-    background: #ff6f91;
+    background: linear-gradient(135deg, #ff6f91, #ff8fab);
     color: white;
     cursor: pointer;
+    min-width: 220px;
   }
 
+  /* Gallery */
   .gallery {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-    gap: 16px;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 14px;
     width: 100%;
     max-width: 900px;
   }
 
   .photo {
-    height: 220px;
+    height: 200px;
     border-radius: 18px;
     overflow: hidden;
-    box-shadow: 0 12px 25px rgba(0,0,0,0.2);
+    box-shadow: 0 10px 22px rgba(0,0,0,0.2);
   }
 
   .photo img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    display: block;
   }
 
+  /* Typing */
+  .typing {
+    font-size: clamp(1rem, 4.3vw, 1.15rem);
+    line-height: 1.75;
+    white-space: pre-wrap;
+    min-height: 160px;
+  }
+
+  /* Hearts */
   .heart {
     position: fixed;
     bottom: -20px;
-    font-size: 20px;
+    font-size: 18px;
     animation: floatUp 5s linear forwards;
+    pointer-events: none;
   }
 
   @keyframes floatUp {
-    to { transform: translateY(-110vh); opacity: 0; }
-  }
-
-  .typing {
-    font-size: 1.1rem;
-    line-height: 1.7;
-    white-space: pre-wrap;
-    min-height: 120px;
+    to {
+      transform: translateY(-110vh);
+      opacity: 0;
+    }
   }
 
   footer {
-    padding: 40px;
+    padding: 32px 16px;
     text-align: center;
     color: #555;
+    font-size: 0.9rem;
+  }
+
+  /* Small phones */
+  @media (max-width: 360px) {
+    button {
+      min-width: 100%;
+    }
+    .photo {
+      height: 170px;
+    }
   }
 </style>
 </head>
 
 <body>
 
-<!-- SECTION 1 -->
+<!-- HERO -->
 <section>
   <div class="card show">
     <h1>Happy Birthday My Love ❤️</h1>
-    <p>You are my favorite part of every day.</p>
+    <p>You are my favorite part of every single day.</p>
     <button id="startBtn">Start the Surprise 🎉</button>
   </div>
 </section>
 
-<!-- SECTION 2 -->
+<!-- LETTER -->
 <section id="letter">
   <div class="card">
     <div class="typing" id="typingText"></div>
   </div>
 </section>
 
-<!-- SECTION 3 -->
+<!-- GALLERY -->
 <section>
   <div class="gallery card">
     <div class="photo"><img src="image1.jpeg"></div>
@@ -129,12 +164,12 @@
   </div>
 </section>
 
-<!-- SECTION 4 -->
+<!-- FINAL -->
 <section>
   <div class="card">
     <h2>One Last Thing 💌</h2>
-    <p>There’s something I need you to know.</p>
-    <button id="finalBtn">Reveal</button>
+    <p>There’s something I want you to remember.</p>
+    <button id="finalBtn">Reveal ❤️</button>
   </div>
 </section>
 
@@ -150,13 +185,13 @@
   const music = document.getElementById("music");
   const typingText = document.getElementById("typingText");
 
-  const letter = 
+  const letter =
 `My love,
 
 Every day with you feels like a gift.
 You make me feel safe, understood, and deeply loved.
 
-I love your smile, your heart, and the way you care.
+I love your smile, your heart, and your kindness.
 I love who you are, and who you are becoming.
 
 Thank you for being you.
@@ -164,30 +199,32 @@ Thank you for choosing me.
 
 Happy birthday, my love.`;
 
-  let index = 0;
+  let i = 0;
+  let typed = false;
 
   startBtn.addEventListener("click", () => {
-    music.play().catch(()=>{});
-    document.getElementById("letter").scrollIntoView({behavior:"smooth"});
-    typeLetter();
+    music.play().catch(() => {});
+    document.getElementById("letter").scrollIntoView({ behavior: "smooth" });
+    if (!typed) typeLetter();
     hearts();
   });
 
   finalBtn.addEventListener("click", () => {
-    alert("I love you. More than you’ll ever know ❤️");
+    alert("I love you. Today, tomorrow, always ❤️");
     hearts();
   });
 
   function typeLetter() {
-    if (index < letter.length) {
-      typingText.textContent += letter[index];
-      index++;
-      setTimeout(typeLetter, 40);
+    typed = true;
+    if (i < letter.length) {
+      typingText.textContent += letter[i];
+      i++;
+      setTimeout(typeLetter, 35);
     }
   }
 
   function hearts() {
-    for (let i = 0; i < 30; i++) {
+    for (let n = 0; n < 20; n++) {
       const h = document.createElement("div");
       h.className = "heart";
       h.textContent = "❤️";
@@ -198,12 +235,11 @@ Happy birthday, my love.`;
     }
   }
 
-  // fade in cards on scroll
+  // Fade-in on scroll (mobile safe)
   const cards = document.querySelectorAll(".card");
   window.addEventListener("scroll", () => {
     cards.forEach(card => {
-      const top = card.getBoundingClientRect().top;
-      if (top < window.innerHeight - 100) {
+      if (card.getBoundingClientRect().top < window.innerHeight - 80) {
         card.classList.add("show");
       }
     });
