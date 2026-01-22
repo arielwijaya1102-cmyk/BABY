@@ -145,7 +145,19 @@
       <p class="message">
         Today is all about you. I’m so grateful for every moment with you.
       </p>
-      <button onclick="celebrate()">Celebrate 🎉</button>
+      <button id="celebrateBtn">Celebrate 🎉</button>
+
+<audio id="bgMusic" src="song.mp3"></audio>
+
+<script>
+  document.getElementById("celebrateBtn").onclick = function () {
+    const music = document.getElementById("bgMusic");
+    music.play();
+
+    alert("Happy Birthday ❤️");
+  };
+</script>
+</button>
     </div>
   </section>
 
@@ -202,3 +214,4 @@
 
 </body>
 </html>
+
